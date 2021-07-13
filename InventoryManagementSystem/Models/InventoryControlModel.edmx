@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Asset_Details">
+          <Key>
+            <PropertyRef Name="Asset_ID" />
+          </Key>
+          <Property Name="AssetDescription_VC" Type="varchar" MaxLength="500" />
+          <Property Name="AssetQuantity_VC" Type="int" />
+          <Property Name="AssetValue_NB" Type="int" />
+          <Property Name="CreatedOn_DT" Type="datetime" />
+          <Property Name="UpdatedOn_DT" Type="datetime" />
+          <Property Name="IsActive_BT" Type="bit" />
+          <Property Name="AssetImage_VB" Type="varbinary(max)" />
+          <Property Name="Asset_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order_Details">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Asset_ID" Type="int" />
+          <Property Name="UserName_ID" Type="int" />
+          <Property Name="ExpDeliveryDate_DT" Type="datetime" />
+          <Property Name="OrderDone_BT" Type="bit" />
+          <Property Name="CreatedOn_DT" Type="datetime" />
+          <Property Name="UpdatedOn_DT" Type="datetime" />
+          <Property Name="IsActive_BT" Type="bit" />
+          <Property Name="QtyOrdered_NB" Type="int" />
+        </EntityType>
+        <EntityType Name="User_Details">
+          <Key>
+            <PropertyRef Name="UserName_ID" />
+          </Key>
+          <Property Name="CompanyName_VC" Type="varchar" MaxLength="200" />
+          <Property Name="Password_VC" Type="varchar" MaxLength="20" />
+          <Property Name="IsCustomer_BT" Type="bit" />
+          <Property Name="CreatedOn_DT" Type="datetime" />
+          <Property Name="UpdatedOn_DT" Type="datetime" />
+          <Property Name="IsActive_BT" Type="bit" />
+          <Property Name="UserName_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Order_Det__Asset__47A6A41B">
+          <End Role="Asset_Details" Type="Self.Asset_Details" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_Details">
+              <PropertyRef Name="Asset_ID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Asset_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order_Det__UserN__489AC854">
+          <End Role="User_Details" Type="Self.User_Details" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Details">
+              <PropertyRef Name="UserName_ID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="UserName_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDBModelStoreContainer">
+          <EntitySet Name="Asset_Details" EntityType="Self.Asset_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Details" EntityType="Self.Order_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Details" EntityType="Self.User_Details" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Order_Det__Asset__47A6A41B" Association="Self.FK__Order_Det__Asset__47A6A41B">
+            <End Role="Asset_Details" EntitySet="Asset_Details" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order_Det__UserN__489AC854" Association="Self.FK__Order_Det__UserN__489AC854">
+            <End Role="User_Details" EntitySet="User_Details" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Asset_Details">
+          <Key>
+            <PropertyRef Name="Asset_ID" />
+          </Key>
+          <Property Name="Asset_ID" Type="Int32" Nullable="false" />
+          <Property Name="AssetDescription_VC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AssetQuantity_VC" Type="Int32" />
+          <Property Name="AssetValue_NB" Type="Int32" />
+          <Property Name="CreatedOn_DT" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn_DT" Type="DateTime" Precision="3" />
+          <Property Name="IsActive_BT" Type="Boolean" />
+          <NavigationProperty Name="Order_Details" Relationship="Self.FK__Order_Det__Asset__40058253" FromRole="Asset_Details" ToRole="Order_Details" />
+          <Property Name="AssetImage_VB" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Order_Details">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <Property Name="Asset_ID" Type="Int32" />
+          <Property Name="UserName_ID" Type="Int32" />
+          <Property Name="ExpDeliveryDate_DT" Type="DateTime" Precision="3" />
+          <Property Name="OrderDone_BT" Type="Boolean" />
+          <Property Name="CreatedOn_DT" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn_DT" Type="DateTime" Precision="3" />
+          <Property Name="IsActive_BT" Type="Boolean" />
+          <NavigationProperty Name="Asset_Details" Relationship="Self.FK__Order_Det__Asset__40058253" FromRole="Order_Details" ToRole="Asset_Details" />
+          <NavigationProperty Name="User_Details" Relationship="Self.FK__Order_Det__UserN__40F9A68C" FromRole="Order_Details" ToRole="User_Details" />
+          <Property Name="QtyOrdered_NB" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User_Details">
+          <Key>
+            <PropertyRef Name="UserName_ID" />
+          </Key>
+          <Property Name="UserName_ID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName_VC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Password_VC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsCustomer_BT" Type="Boolean" />
+          <Property Name="CreatedOn_DT" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn_DT" Type="DateTime" Precision="3" />
+          <Property Name="IsActive_BT" Type="Boolean" />
+          <NavigationProperty Name="Order_Details" Relationship="Self.FK__Order_Det__UserN__40F9A68C" FromRole="User_Details" ToRole="Order_Details" />
+        </EntityType>
+        <Association Name="FK__Order_Det__Asset__40058253">
+          <End Role="Asset_Details" Type="Self.Asset_Details" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset_Details">
+              <PropertyRef Name="Asset_ID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Asset_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order_Det__UserN__40F9A68C">
+          <End Role="User_Details" Type="Self.User_Details" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Details">
+              <PropertyRef Name="UserName_ID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="UserName_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asset_Details" EntityType="Self.Asset_Details" />
+          <EntitySet Name="Order_Details" EntityType="Self.Order_Details" />
+          <EntitySet Name="User_Details" EntityType="Self.User_Details" />
+          <AssociationSet Name="FK__Order_Det__Asset__40058253" Association="Self.FK__Order_Det__Asset__40058253">
+            <End Role="Asset_Details" EntitySet="Asset_Details" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order_Det__UserN__40F9A68C" Association="Self.FK__Order_Det__UserN__40F9A68C">
+            <End Role="User_Details" EntitySet="User_Details" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDBModelStoreContainer" CdmEntityContainer="TestDBEntities">
+          <EntitySetMapping Name="Asset_Details">
+            <EntityTypeMapping TypeName="TestDBModel.Asset_Details">
+              <MappingFragment StoreEntitySet="Asset_Details">
+                <ScalarProperty Name="AssetImage_VB" ColumnName="AssetImage_VB" />
+                <ScalarProperty Name="Asset_ID" ColumnName="Asset_ID" />
+                <ScalarProperty Name="AssetDescription_VC" ColumnName="AssetDescription_VC" />
+                <ScalarProperty Name="AssetQuantity_VC" ColumnName="AssetQuantity_VC" />
+                <ScalarProperty Name="AssetValue_NB" ColumnName="AssetValue_NB" />
+                <ScalarProperty Name="CreatedOn_DT" ColumnName="CreatedOn_DT" />
+                <ScalarProperty Name="UpdatedOn_DT" ColumnName="UpdatedOn_DT" />
+                <ScalarProperty Name="IsActive_BT" ColumnName="IsActive_BT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Details">
+            <EntityTypeMapping TypeName="TestDBModel.Order_Details">
+              <MappingFragment StoreEntitySet="Order_Details">
+                <ScalarProperty Name="QtyOrdered_NB" ColumnName="QtyOrdered_NB" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+                <ScalarProperty Name="Asset_ID" ColumnName="Asset_ID" />
+                <ScalarProperty Name="UserName_ID" ColumnName="UserName_ID" />
+                <ScalarProperty Name="ExpDeliveryDate_DT" ColumnName="ExpDeliveryDate_DT" />
+                <ScalarProperty Name="OrderDone_BT" ColumnName="OrderDone_BT" />
+                <ScalarProperty Name="CreatedOn_DT" ColumnName="CreatedOn_DT" />
+                <ScalarProperty Name="UpdatedOn_DT" ColumnName="UpdatedOn_DT" />
+                <ScalarProperty Name="IsActive_BT" ColumnName="IsActive_BT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Details">
+            <EntityTypeMapping TypeName="TestDBModel.User_Details">
+              <MappingFragment StoreEntitySet="User_Details">
+                <ScalarProperty Name="UserName_ID" ColumnName="UserName_ID" />
+                <ScalarProperty Name="CompanyName_VC" ColumnName="CompanyName_VC" />
+                <ScalarProperty Name="Password_VC" ColumnName="Password_VC" />
+                <ScalarProperty Name="IsCustomer_BT" ColumnName="IsCustomer_BT" />
+                <ScalarProperty Name="CreatedOn_DT" ColumnName="CreatedOn_DT" />
+                <ScalarProperty Name="UpdatedOn_DT" ColumnName="UpdatedOn_DT" />
+                <ScalarProperty Name="IsActive_BT" ColumnName="IsActive_BT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

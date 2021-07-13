@@ -1,0 +1,52 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.OrderedItems>
+
+@{
+    ViewBag.Title = "GetReport";
+}
+
+<script>
+    function getInvoice(orderId) {
+        $.ajax({
+            url: "@Url.Action("GenerateInvoice", "Home")",
+            data: { orderId: orderId },
+            success: function (data) {
+                    $("#getInvoiceReport").html(data);
+                }
+        });
+    }
+</script>
+
+<h2>GetReport</h2>
+
+<div>
+    <table border="1">
+        <thead style="background-color:burlywood">
+            <tr>
+                <th class="col-md-3">Asset Name</th>
+                <th class="col-md-3">Quantity Ordered</th>
+                <th class="col-md-3">Ordered On</th>
+                <th class="col-md-3">Get Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var assetId = item.AssetId;
+                <tr>
+                    <td>@item.AssetName</td>
+                    <td>@item.QtyOrdered</td>
+                    <td>@item.OrderedOn</td>
+                    <td><button onclick="getInvoice(@item.OrderId)">View Invoice</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<div id="getInvoiceReport"></div>
+
+<div>
+    <h2>Please check your all order details below:</h2>
+    <button onclick="getReport()">Generate Overall Report</button>
+</div>

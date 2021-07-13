@@ -1,0 +1,80 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.AssetData>
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<style>
+
+    .error-message {
+        color: #FF0000;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px 0px;
+        margin: 0 auto 10px auto;
+    }
+
+    .success-message {
+        color: #00b300;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px 0px;
+        margin: 0 auto 10px auto;
+    }
+</style>
+
+<script>
+    function placeOrder(assetId) {
+        $("#divSuccessMsg").html("");
+        $("#divValidationMsg").html("");
+        var assetQty = $("#qty").val();
+        $.ajax({
+            url: "@Url.Action("AssetOrder", "Home")",
+            data: { assetId: assetId, assetQty: assetQty },
+            success: function (data) {
+                if (data == "Success") {
+                    $("#divSuccessMsg").show();
+                    $("#divSuccessMsg").html("Your order has been placed. Kindly check your invoice in Reports tab.");
+                }
+                else if (data == "NoStock") {
+                    $("#divSuccessMsg").show();
+                    $("#divSuccessMsg").html("Currently we don't have sufficient amount of stock. We have taken your order please check after a month");
+                }
+                else {
+                    $("#divValidationMsg").show();
+                    $("#divValidationMsg").html("Some error has been occurred. Please check after sometime.");
+                }
+            },
+        });
+    }
+
+</script>
+
+<h2>Dashboard</h2>
+<br />
+
+<div class="success-message col-md-12" id="divSuccessMsg" hidden></div>
+<div class="error-message col-md-12" id="divValidationMsg" hidden></div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th  class="col-md-3">Item</th>
+                <th  class="col-md-3">Price</th>
+                <th  class="col-md-3">Quantity Required</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Asset_Name</td>
+                    <td>@item.Asset_Value</td>
+                    <td><input type="text" id="qty" /></td>
+                    <td><input type="button" id="qtyBtn" onclick="placeOrder(@item.Asset_Id)" value="Place Order" /></td>
+                </tr>
+                <tr></tr>
+                <tr></tr>
+            }
+        </tbody>
+    </table>
+</div>
